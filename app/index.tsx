@@ -5,12 +5,12 @@ import { useFonts, Caveat_400Regular } from '@expo-google-fonts/caveat';
 export default function LandingScreen() {
   const router = useRouter();
 
-  const [fontsLoaded] = useFonts({
+ 
+ const [fontsLoaded] = useFonts({
     Caveat_400Regular,
   });
 
   if (!fontsLoaded) return null;
-
   return (
     <ImageBackground
       source={require('../assets/eiffel.jpg')} // Local image
