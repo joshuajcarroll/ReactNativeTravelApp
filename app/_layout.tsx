@@ -25,8 +25,10 @@ export default function RootLayout() {
   }
 
   const createJournalDatabase = async (db: SQLiteDatabase) => {
+    console.log("Creating journal database");
+    // Create the journal table if it doesn't exist
     await db.execAsync( 
-      "CREATE TABLE IF NOT EXISTS journal (id TEXT PRIMARY KEY,title TEXT,location TEXT,date TEXT,coords TEXT);"
+      "CREATE TABLE IF NOT EXISTS journal (id TEXT PRIMARY KEY,title TEXT,description TEXT,imageUri TEXT, location TEXT,date TEXT,coords TEXT);"
     );
   };
 

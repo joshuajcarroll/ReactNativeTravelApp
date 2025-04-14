@@ -110,9 +110,11 @@ import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import uuid from 'react-native-uuid';
+import { useSQLiteContext } from 'expo-sqlite';
 //import { insertEntry } from '../utils/db'; // Update this path if needed
 
 export default function AddEntryScreen() {
+  const database = useSQLiteContext();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUri, setImageUri] = useState('');
@@ -167,7 +169,20 @@ export default function AddEntryScreen() {
       const now = new Date();
       const formattedDate = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}-${now.getFullYear()}`;
 
-      const newEntry = {
+
+      
+      await database.runAsync(
+        'INSERT INTO journal (id, title, description, imageUri, location, date, coords) VALUES (?, ?, ?, ?, ?, ?, ?)',[
+            uuid.v4().toString(),
+            title,
+            description,
+            imageUri,
+            locationName || 'Unknown Location',
+            formattedDate,
+            JSON.stringify(coords),
+        ]);
+        
+      /*const newEntry = {
         id: uuid.v4().toString(),
         title,
         description,
@@ -177,7 +192,7 @@ export default function AddEntryScreen() {
         coords: JSON.stringify(coords),
       };
 
-      /*await insertEntry(
+      await insertEntry(
         newEntry.id,
         newEntry.title,
         newEntry.location,
