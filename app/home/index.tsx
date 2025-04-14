@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
@@ -10,6 +11,7 @@ type JournalEntry = {
 
 export default function HomeScreen() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const router = useRouter();
 
   // Dummy data for now
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function HomeScreen() {
         />
       )}
 
-      <TouchableOpacity style={styles.addButton}>
+      <TouchableOpacity style={styles.addButton} onPress={() => router.push('./add-entry')}>
         <Text style={styles.addButtonText}>+ Add Entry</Text>
       </TouchableOpacity>
     </View>
