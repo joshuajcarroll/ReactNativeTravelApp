@@ -1,25 +1,32 @@
 import { useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import { useSQLiteContext } from 'expo-sqlite';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
 type JournalEntry = {
   id: string;
   title: string;
+  description?: string;
+  imageUri?: string;
   location: string;
   date: string;
 };
 
 export default function HomeScreen() {
+  const database = useSQLiteContext();
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const router = useRouter();
 
+  const loadData = async () => {
+    const result = await database.getAllAsync<JournalEntry>("SELECT * FROM journal");
+    setEntries(result);
+  }
   // Dummy data for now
-  useEffect(() => {
-    setEntries([
-      { id: '1', title: 'Paris Getaway', location: 'Paris, France', date: '2024-06-12' },
-      { id: '2', title: 'Hiking Alps', location: 'Zermatt, Switzerland', date: '2024-07-03' },
-    ]);
-  }, []);
+  useEffect(
+    useCallback (() => {
+      loadData();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
