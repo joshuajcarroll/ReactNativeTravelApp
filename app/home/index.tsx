@@ -1,7 +1,9 @@
 import { useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+
+
 
 type JournalEntry = {
   id: string;
@@ -17,16 +19,24 @@ export default function HomeScreen() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const router = useRouter();
 
-  const loadData = async () => {
-    const result = await database.getAllAsync<JournalEntry>("SELECT * FROM journal");
-    setEntries(result);
-  }
   // Dummy data for now
-  useEffect(
-    useCallback (() => {
-      loadData();
-    }, [])
-  );
+  useEffect(() => {
+    
+    const loadData = async () => {
+      try {
+        const result = await database.getAllAsync<JournalEntry>('SELECT * FROM entries;');
+        setEntries(result);
+      } catch (error) {
+        console.error('Failed to load entries:', error);
+      }
+      
+    }
+    loadData();
+   /* setEntries([
+      { id: '1', title: 'Paris Getaway', location: 'Paris, France', date: '2024-06-12' },
+      { id: '2', title: 'Hiking Alps', location: 'Zermatt, Switzerland', date: '2024-07-03' },
+    ]);*/
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -39,7 +49,7 @@ export default function HomeScreen() {
           data={entries}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.entryCard}>
+            <TouchableOpacity style={styles.entryCard} onPress={() => router.push(`/entry-details/${item.id}`)}>
               <Text style={styles.entryTitle}>{item.title}</Text>
               <Text style={styles.entryMeta}>{item.location}</Text>
               <Text style={styles.entryMeta}>{item.date}</Text>

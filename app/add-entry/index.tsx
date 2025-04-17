@@ -525,9 +525,11 @@ export default function AddEntryScreen() {
       };
 
       const geo = await Location.reverseGeocodeAsync(coords);
+      console.log('Geo:', geo);
       if (geo?.[0]) {
         const { city, country } = geo[0];
-        setLocationName(`${city}, ${country}`);
+        const resolvedLocation =`${city}, ${country}`;
+        setLocationName(resolvedLocation);
       } else {
         setLocationName('Unknown Location');
       }
@@ -537,7 +539,7 @@ export default function AddEntryScreen() {
 
       // Insert entry into SQLite database
       await database.runAsync(
-        'INSERT INTO journal (id, title, description, imageUri, location, date, coords) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+        'INSERT INTO entries (id, title, description, imageUri, location, date, coords) VALUES (?, ?, ?, ?, ?, ?, ?)', [
           uuid.v4().toString(),
           title,
           description,
@@ -554,7 +556,7 @@ export default function AddEntryScreen() {
         title,
         description,
         imageUri,
-        location: locationName || 'Unknown Location',
+        resolvedLocation: locationName || 'Unknown Location',
         date: formattedDate,
         coords: JSON.stringify(coords),
       });
