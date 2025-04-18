@@ -981,7 +981,7 @@ export default function EntryDetailsScreen() {
 
         <View style={styles.meta}>
           <Text style={styles.label}>Date:</Text>
-          <Text>{entry.date}</Text>
+          <Text style={styles.date}>{entry.date}</Text>
         </View>
       </Animated.ScrollView>
     </GestureHandlerRootView>
@@ -996,6 +996,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   container: {
+    flexGrow: 1,
     padding: 20,
     backgroundColor: '#222',
   },
@@ -1041,6 +1042,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     marginRight: 5,
+  },
+  date: {
+    color: '#fff',
+    fontFamily: 'Caveat_400Regular',
+    fontSize: 20,
   },
 });
 
