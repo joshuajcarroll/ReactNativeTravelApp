@@ -4,7 +4,12 @@
     "slug": "my-travel-journal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/app-icon.png",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",  // or 'cover' based on your needs
+      "backgroundColor": "#ffffff"  // Set to the background color you want
+    },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

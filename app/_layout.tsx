@@ -96,6 +96,7 @@ export default function RootLayout() {
         <Stack.Screen name="home/index" options={{ headerTitle: 'My Entries' }} />
         <Stack.Screen name="add-entry/index" options={{ headerTitle: 'Add An Entry' }} />
         <Stack.Screen name="entry-details/[id]" options={{ headerTitle: 'Entry Details' }} />
+        <Stack.Screen name="edit-entry/[id]" options={{ headerTitle: 'Edit Entry' }} />
       </Stack>
     </SQLiteProvider>
   );
